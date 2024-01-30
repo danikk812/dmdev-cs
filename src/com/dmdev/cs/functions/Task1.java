@@ -15,7 +15,7 @@ public class Task1 {
 
     }
 
-    public static void defineQuarterOfHour(int minutes) {
+    private static void defineQuarterOfHour(int minutes) {
         if (minutes >= 0 && minutes < 60) {
             int quarter = (minutes == 0) ? 1 : (int) Math.ceil(minutes / 15.0);
             System.out.println("Minute " + minutes + " is in the " + quarter + " quarter of an hour");

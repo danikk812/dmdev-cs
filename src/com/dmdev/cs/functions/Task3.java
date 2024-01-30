@@ -24,15 +24,15 @@ public class Task3 {
 
     }
 
-    public static double squareRightTriangle(int a, int b) {
+    private static double squareRightTriangle(int a, int b) {
         if (a <= 0 || b <= 0) {
             throw new IllegalArgumentException("Error: the triangle sides must be positive values");
         }
 
-        return 0.5 * a * b;
+        return 0.5 * (a * b);
     }
 
-    public static void compareAreas(double area1, double area2) {
+    private static void compareAreas(double area1, double area2) {
         if (area1 > area2) {
             System.out.printf("First triangle area (%f) is greater than the second (%f)%n", area1, area2);
         } else if (area1 < area2) {
