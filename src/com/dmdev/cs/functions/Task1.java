@@ -20,7 +20,7 @@ public class Task1 {
             int quarter = (minutes == 0) ? 1 : (int) Math.ceil(minutes / 15.0);
             System.out.println("Minute " + minutes + " is in the " + quarter + " quarter of an hour");
         } else {
-            System.out.println("Invalid minutes value " + minutes +  " (0 <= minutes <= 59)");
+            System.out.println("Invalid minutes value " + minutes + " (0 <= minutes <= 59)");
         }
     }
 
