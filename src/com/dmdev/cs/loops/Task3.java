@@ -47,14 +47,14 @@ public class Task3 {
     private static double checkBankBalance(int salary, int salaryRise, int salaryRisePeriodInMonths, int monthlySpending, double monthlyInvestmentRate, int months) {
         double bankAccountBalance = 0;
 
-        for (int currentMonth = 1; currentMonth < months; currentMonth++) {
-            double investments = salary * monthlyInvestmentRate;
+        for (int currentMonth = 1; currentMonth <= months; currentMonth++) {
+            double investments = calculateMonthlyInvestmentsFromSalary(salary, monthlyInvestmentRate);
 
             if (currentMonth % salaryRisePeriodInMonths != 0) {
-                bankAccountBalance += salary - monthlySpending - investments;
+                bankAccountBalance = calculateMonthlyBankAccountBalance(bankAccountBalance, salary, monthlySpending, investments);
             } else {
-                bankAccountBalance += salary - monthlySpending - investments;
-                salary += salaryRise;
+                bankAccountBalance = calculateMonthlyBankAccountBalance(bankAccountBalance, salary, monthlySpending, investments);
+                salary = calculateRaisedSalary(salary, salaryRise);
             }
         }
 
@@ -64,21 +64,42 @@ public class Task3 {
     private static double checkBrokerBalance(int salary, int salaryRise, int salaryRisePeriodInMonths, double monthlyInvestmentRate, double stockReturnRate, int months) {
         double brokerAccountBalance = 0;
 
-        for (int currentMonth = 1; currentMonth < months; currentMonth++) {
-            double investments = salary * monthlyInvestmentRate;
-            double stockReturn = brokerAccountBalance * stockReturnRate;
+        for (int currentMonth = 1; currentMonth <= months; currentMonth++) {
+            double investments = calculateMonthlyInvestmentsFromSalary(salary, monthlyInvestmentRate);
+            double stockReturn = calculateStockReturn(brokerAccountBalance, stockReturnRate);
 
             if (currentMonth == 1) {
                 brokerAccountBalance += investments;
             } else if (currentMonth % salaryRisePeriodInMonths != 0) {
-                brokerAccountBalance += investments + stockReturn;
+                brokerAccountBalance = calculateMonthlyBrokerAccountBalanceWithStockReturn(brokerAccountBalance, investments, stockReturn);
             } else {
-                brokerAccountBalance += investments + stockReturn;
-                salary += salaryRise;
+                brokerAccountBalance = calculateMonthlyBrokerAccountBalanceWithStockReturn(brokerAccountBalance, investments, stockReturn);
+                salary = calculateRaisedSalary(salary, salaryRise);
             }
         }
 
         return brokerAccountBalance;
+    }
+
+
+    private static double calculateMonthlyInvestmentsFromSalary(int salary, double investmentRate) {
+        return salary * investmentRate;
+    }
+
+    private static double calculateMonthlyBankAccountBalance(double bankAccountBalance, int salary, int monthlySpending, double investments) {
+        return bankAccountBalance + salary - monthlySpending - investments;
+    }
+
+    private static int calculateRaisedSalary(int salary, int salaryRise) {
+        return salary + salaryRise;
+    }
+
+    private static double calculateStockReturn(double brokerAccountBalance, double stockReturnRate) {
+        return brokerAccountBalance * stockReturnRate;
+    }
+
+    private static double calculateMonthlyBrokerAccountBalanceWithStockReturn(double brokerAccountBalance, double investments,  double stockReturn) {
+        return brokerAccountBalance + investments + stockReturn;
     }
 
 }
