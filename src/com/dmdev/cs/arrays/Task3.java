@@ -24,13 +24,11 @@ public class Task3 {
     }
 
     private static int[][] splitNumbersTo2DArrayBySign(int[] numbers) {
-        int[][] splitBySignNumbers = new int[3][];
-
-        splitBySignNumbers[0] = populateNumbersBySign(numbers, '-');
-        splitBySignNumbers[1] = populateNumbersBySign(numbers, '0');
-        splitBySignNumbers[2] = populateNumbersBySign(numbers, '+');
-
-        return splitBySignNumbers;
+        return new int[][]{
+                populateNumbersBySign(numbers, NEGATIVE),
+                populateNumbersBySign(numbers, ZERO),
+                populateNumbersBySign(numbers, POSITIVE)
+        };
 
     }
 
