@@ -51,14 +51,12 @@ public final class StudentsUtils {
 
     }
 
-    public static Map<Integer, List<CourseInfo>> getSortedStudentsAndAverageGrades(Map<Integer, List<Student>> studentsByCourse) {
+    public static Map<Integer, CourseInfo> getSortedStudentsAndAverageGrades(Map<Integer, List<Student>> studentsByCourse) {
         return studentsByCourse.entrySet().stream()
                 .collect(Collectors.toMap(
                         Map.Entry::getKey,
-                        entry -> entry.getValue().stream()
-                                .map(student -> new CourseInfo(sortStudentsByNameAndSurname(entry.getValue()),
-                                        calculateAverageGrade(entry.getValue())))
-                                .collect(Collectors.toList())
+                        entry -> new CourseInfo(sortStudentsByNameAndSurname(entry.getValue()),
+                                calculateAverageGrade(entry.getValue()))
                 ));
     }
 }

@@ -18,7 +18,7 @@ public class StudentsApplication {
 
         Map<Integer, Double> averageGradesByCourse = StudentsUtils.getAverageForMoreThenThreeGrades(studentsByCourse);
         Map<Integer, List<Student>> sortedByNameAndSurnameByCourse = StudentsUtils.getSortedByNameAndSurnameStudents(studentsByCourse);
-        Map<Integer, List<CourseInfo>> sortedStudentsAndAverageGradesByCourse = StudentsUtils.getSortedStudentsAndAverageGrades(studentsByCourse);
+        Map<Integer, CourseInfo> sortedStudentsAndAverageGradesByCourse = StudentsUtils.getSortedStudentsAndAverageGrades(studentsByCourse);
 
         System.out.println("Average Grades by Course:");
         System.out.println(averageGradesByCourse);
