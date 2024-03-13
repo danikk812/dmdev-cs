@@ -19,6 +19,7 @@ public class CSVMergeRunner {
             2,25.05
             3,16.45
             4,2.28
+            5,3.22
             """;
 
     public static final String ITEMS_NAME_CONTENT = """
@@ -35,24 +36,19 @@ public class CSVMergeRunner {
         Path resultFilePath = Path.of(ITEMS_BASE_PATH, RESULT_FILE_NAME);
         Path errorsFilePath = Path.of(ITEMS_BASE_PATH, ERRORS_FILE_NAME);
 
-        try {
-            ItemsCSVUtil.createCSV(itemsFilePath, ITEMS_NAME_CONTENT);
-            ItemsCSVUtil.createCSV(itemsPriceFilePath, ITEMS_PRICE_CONTENT);
+        ItemsCSVUtil.createCSV(itemsFilePath, ITEMS_NAME_CONTENT);
+        ItemsCSVUtil.createCSV(itemsPriceFilePath, ITEMS_PRICE_CONTENT);
 
-            var names = ItemsCSVUtil.readNames(itemsFilePath);
-            var prices = ItemsCSVUtil.readPrices(itemsPriceFilePath);
+        var names = ItemsCSVUtil.readNames(itemsFilePath);
+        var prices = ItemsCSVUtil.readPrices(itemsPriceFilePath);
 
-            var mergedItemsData = ItemsCSVUtil.mergeItemsData(prices, names);
-            var itemsErrorData = ItemsCSVUtil.getItemsErrorData(prices, names);
+        var mergedItemsData = ItemsCSVUtil.mergeItemsData(prices, names);
+        var itemsErrorData = ItemsCSVUtil.getItemsErrorData(prices, names);
 
-            ItemsCSVUtil.saveResultCSV(mergedItemsData, resultFilePath);
-            ItemsCSVUtil.saveErrorsCSV(itemsErrorData, errorsFilePath);
+        ItemsCSVUtil.saveResultCSV(mergedItemsData, resultFilePath);
+        ItemsCSVUtil.saveErrorsCSV(itemsErrorData, errorsFilePath);
 
-            System.out.println("Items merge completed successfully.");
-
-        } catch (IOException e) {
-            System.err.println("An error occurred while files processing " + e.getMessage());
-        }
+        System.out.println("Items merge completed successfully.");
 
     }
 }

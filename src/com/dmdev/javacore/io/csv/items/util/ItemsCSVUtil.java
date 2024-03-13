@@ -9,35 +9,53 @@ import java.util.stream.Stream;
 
 public final class ItemsCSVUtil {
 
+    private static final int ITEMS_CSV_ID_INDEX = 0;
+    private static final int ITEMS_CSV_NAME_INDEX = 1;
+    private static final int ITEMS_CSV_DESCRIPTION_INDEX = 2;
+    private static final int ITEMS_CSV_PRICE_INDEX = 1;
+
+    private static final String ITEMS_RESULT_CSV_HEADER = "ID,NAME,PRICE";
+    private static final  String ITEMS_ERRORS_CSV_HEADER = "ID";
+
+
+
     private ItemsCSVUtil() {
     }
 
-    public static void createCSV(Path path, String content) throws IOException {
-        Files.write(path, Collections.singleton(content.trim()));
-    }
-
-    public static Map<String, String[]> readNames(Path path) throws IOException {
-        try (Stream<String> lines = Files.lines(path)) {
-            return lines
-                    .skip(1)
-                    .map(line -> line.split(","))
-                    .collect(Collectors.toMap(
-                            arr -> arr[0],
-                            arr -> new String[]{arr[1], arr[2]}
-                    ));
+    public static void createCSV(Path path, String content) {
+        try {
+            Files.write(path, Collections.singleton(content.trim()));
+        } catch (IOException e) {
+            throw new RuntimeException("An error occurred while creating CSV file with createCSV() " + e, e);
         }
     }
 
-    public static Map<String, String> readPrices(Path path) throws IOException {
+    public static Map<String, String[]> readNames(Path path) {
         try (Stream<String> lines = Files.lines(path)) {
             return lines
                     .skip(1)
                     .map(line -> line.split(","))
                     .collect(Collectors.toMap(
-                            arr -> arr[0],
-                            arr -> arr[1],
+                            arr -> arr[ITEMS_CSV_ID_INDEX],
+                            arr -> new String[]{arr[ITEMS_CSV_NAME_INDEX], arr[ITEMS_CSV_DESCRIPTION_INDEX]}
+                    ));
+        } catch (IOException e) {
+            throw new RuntimeException("An error occurred while reading CSV file with readNames() " + e, e);
+        }
+    }
+
+    public static Map<String, String> readPrices(Path path) {
+        try (Stream<String> lines = Files.lines(path)) {
+            return lines
+                    .skip(1)
+                    .map(line -> line.split(","))
+                    .collect(Collectors.toMap(
+                            arr -> arr[ITEMS_CSV_ID_INDEX],
+                            arr -> arr[ITEMS_CSV_PRICE_INDEX],
                             ((exist, replace) -> exist)
                     ));
+        } catch (IOException e) {
+            throw new RuntimeException("An error occurred while reading CSV file with readPrices() " + e, e);
         }
     }
 
@@ -59,19 +77,27 @@ public final class ItemsCSVUtil {
                 .collect(Collectors.toList());
     }
 
-    public static void saveResultCSV(Map<String, String> mergedItemsData, Path path) throws IOException {
+    public static void saveResultCSV(Map<String, String> mergedItemsData, Path path) {
         List<String> lines = new ArrayList<>();
-        lines.add("ID,NAME,PRICE");
+        lines.add(ITEMS_RESULT_CSV_HEADER);
         lines.addAll(mergedItemsData.entrySet().stream()
                 .map(entry -> entry.getKey() + "," + entry.getValue())
                 .collect(Collectors.toList()));
-        Files.write(path, lines);
+        try {
+            Files.write(path, lines);
+        } catch (IOException e) {
+            throw new RuntimeException("An error occurred while saving CSV file with saveResultCSV() " + e, e);
+        }
     }
 
-    public static void saveErrorsCSV(List<String> itemsErrorData, Path path) throws IOException {
+    public static void saveErrorsCSV(List<String> itemsErrorData, Path path) {
         List<String> lines = new ArrayList<>();
-        lines.add("ID");
+        lines.add(ITEMS_ERRORS_CSV_HEADER);
         lines.addAll(itemsErrorData);
-        Files.write(path, lines);
+        try {
+            Files.write(path, lines);
+        } catch (IOException e) {
+            throw new RuntimeException("An error occurred while reading CSV file with saveErrorsCSV() " + e, e);
+        }
     }
 }
