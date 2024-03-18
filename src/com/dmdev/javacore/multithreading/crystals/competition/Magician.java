@@ -61,10 +61,7 @@ public class Magician implements Runnable {
     }
 
     private void logProgress() {
-        System.out.println("Magician " + type + " has collected:");
-        System.out.println("Red crystals: " + redCrystalsCollected.get());
-        System.out.println("White crystals: " + whiteCrystalsCollected.get());
-        System.out.println();
+        System.out.println("Magician " + type + " has collected: Red crystals: " + redCrystalsCollected.get() + ", White crystals: " + whiteCrystalsCollected.get());
     }
 
 }
